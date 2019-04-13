@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ManaApp.Pages.HttpRequestPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="HTTP Request Test - External Web Service" />
+            <Button Text="HttpRequest" Clicked="HttpRequestClicked"/>
+            <Button Text="ToPage" Clicked="ToPageClicked"/>
+            <Entry x:Name="relativePath" Placeholder="Please insert Path"/>
+            <Label x:Name="httpResponseView" Text="Http Response should be here!!"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
