@@ -4,11 +4,18 @@
              xmlns:local="clr-namespace:ManaApp"
              x:Class="ManaApp.MainPage">
 
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+    <ScrollView>
+        <StackLayout>
+            <Label Text="Welcome to ManaApp!" />
+            <Button Text="Show all Calendars" Clicked="ShowAllCalendars"/>
+            <Button Text="Show Events" Clicked="ShowEvents"/>
+            <Button Text="HTTP" Clicked="LoadHttpPage"/>
+            <Button Text="Calendar" Clicked="LoadCalendarPage"/>
+            <Button Text="Login Page" Clicked="LoadLoginPage"/>
+            <Button Text="Register Page" Clicked="LoadRegisterPage"/>
+            <Button Text="New App Page" Clicked="LoadNewAppInfoPage"/>
+            <Label Text="Display raw data" x:Name="rawDataTextView" />
+        </StackLayout>
+    </ScrollView>
 
 </ContentPage>
