@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ManaApp.Pages.CalendarPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <!--
+            <Picker x:Name="viewPicker" SelectedIndexChanged="onViewChanged" />
+            <syncfusion:SfSchedule x:Name="schedule" ShowAppointmentsInline="True" VisibleDatesChangedEvent="onVisibleDatesChanged" CellTapped="onCalendarCellTapped"/>
+            -->
+            <!--<TimePicker x:Name="timePicker" IsVisible="False"/>-->
+            <StackLayout x:Name="timeSlotLayout">
+                <!--Timeslot-Add-Button and added timeslots will be showed here-->
+            </StackLayout>
+            <Label x:Name="debugLabel" Text="Nothing yet"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
