@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ManaApp.Pages.NewAppInfoPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Umfrage Erstellen"/>
+                <Button Text="Erstellen" Clicked="NewAppClicked"/>
+            </StackLayout>
+            <Entry x:Name="calendarInput" Placeholder="Termin waehlen" Focused="ToCalendarPageClicked"/>
+            <Label Text="Optional"/>
+            <Entry x:Name="locationInput" Placeholder="Ort"/>
+            <Entry x:Name="descInput" Placeholder="Beschreibung"/>
+            <Entry x:Name="optionsInput" Placeholder="Einstellung"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
