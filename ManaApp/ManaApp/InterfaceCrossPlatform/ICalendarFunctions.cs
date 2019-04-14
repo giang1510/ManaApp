@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ManaApp.InterfaceCrossPlatform
 {
-    interface ICalendarFunctions
+    public interface ICalendarFunctions
     {
         string showAllCalendars();
         string getEventsFromDevice(DateTime beginTime, DateTime endTime);
