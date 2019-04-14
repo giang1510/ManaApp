@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ManaApp.InterfaceCrossPlatform;
+using System;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ManaApp.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LoginPage : ContentPage
 	{
 		public LoginPage ()
@@ -19,14 +16,14 @@ namespace ManaApp.Pages
 
         private void SignUp(object sender, EventArgs e)
         {
-            //Navigation.PushModalAsync(new RegisterPage());
+            Navigation.PushModalAsync(new RegisterPage());
         }
 
         private async void Login(object sender, EventArgs e)
         {
-            //IRestService service = new RestService();
-            //string result = await service.login(usernameEntry.Text, passwordEntry.Text);
-            //messageLabel.Text = result;
+            IRestService service = new RestService();
+            string result = await service.Login(usernameEntry.Text, passwordEntry.Text);
+            messageLabel.Text = result;
         }
     }
 }
