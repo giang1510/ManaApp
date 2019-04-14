@@ -6,8 +6,8 @@
     <ContentPage.Content>
         <StackLayout>
             
-            <Picker x:Name="viewPicker" SelectedIndexChanged="onViewChanged" />
-            <syncfusion:SfSchedule x:Name="schedule" ShowAppointmentsInline="True" VisibleDatesChangedEvent="onVisibleDatesChanged" CellTapped="onCalendarCellTapped"/>
+            <Picker x:Name="viewPicker" SelectedIndexChanged="OnViewChanged" />
+            <syncfusion:SfSchedule x:Name="schedule" ShowAppointmentsInline="True" VisibleDatesChangedEvent="OnVisibleDatesChanged" CellTapped="OnCalendarCellTapped"/>
             
             <!--<TimePicker x:Name="timePicker" IsVisible="False"/>-->
             <StackLayout x:Name="timeSlotLayout">
