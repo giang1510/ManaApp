@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Syncfusion.SfSchedule.XForms;
+using System;
 
 namespace ManaApp.InterfaceCrossPlatform
 {
@@ -8,6 +7,6 @@ namespace ManaApp.InterfaceCrossPlatform
     {
         string showAllCalendars();
         string getEventsFromDevice(DateTime beginTime, DateTime endTime);
-        //ScheduleAppointmentCollection getAppList(DateTime beginTime, DateTime endTime);
+        ScheduleAppointmentCollection getAppList(DateTime beginTime, DateTime endTime);
     }
 }
