@@ -17,5 +17,8 @@ namespace ManaApp
         public const string USER_NAME = "name";
         public const string USER_EMAIL = "email";
         public const string USER_PASSWORD = "password";
+
+        //Debug
+        public static ITextToSpeech toast = DependencyService.Get<ITextToSpeech>();
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ManaApp.InterfaceCrossPlatform
 {
-    interface ITextToSpeech
+    public interface ITextToSpeech
     {
         void speak(string text);
     }
