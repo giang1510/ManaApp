@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ManaApp.InterfaceCrossPlatform;
+using ManaApp.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,59 +22,59 @@ namespace ManaApp.Pages
 
         private async void OnRegisterButtonClicked(object sender, EventArgs e)
         {
-            //if (!checkEntries()) return;
+            if (!CheckEntriesCorrectness()) return;
 
-            ////Send user data to server
-            //IRestService service = new RestService();
-            //User user = new User
-            //{
-            //    username = usernameEntry.Text,
-            //    name = nameEntry.Text,
-            //    email = emailEntry.Text,
-            //    password = passwordEntry.Text
-            //};
-            //string result = await service.register(user);
-            //messageLabel.Text = result;
+            //Send user data to server
+            IRestService service = new RestService();
+            User user = new User
+            {
+                username = usernameEntry.Text,
+                name = nameEntry.Text,
+                email = emailEntry.Text,
+                password = passwordEntry.Text
+            };
+            string result = await service.Register(user);
+            messageLabel.Text = result;
         }
 
         //Check whether entries are empty or have incorrect format
-        private bool CheckEntries()
+        private bool CheckEntriesCorrectness()
         {
-            //if (string.IsNullOrWhiteSpace(usernameEntry.Text))
-            //{
-            //    messageLabel.Text = "Please enter the username!";
-            //    return false;
-            //}
-            //if (string.IsNullOrWhiteSpace(nameEntry.Text))
-            //{
-            //    messageLabel.Text = "Please enter your name!";
-            //    return false;
-            //}
-            //if (string.IsNullOrWhiteSpace(emailEntry.Text))
-            //{
-            //    messageLabel.Text = "Please enter your email!";
-            //    return false;
-            //}
-            //if (IsValidEmail(emailEntry.Text))
-            //{
-            //    messageLabel.Text = "Your email is not valid!";
-            //    return false;
-            //}
-            //if (string.IsNullOrWhiteSpace(passwordEntry.Text))
-            //{
-            //    messageLabel.Text = "Please enter a password!";
-            //    return false;
-            //}
-            //if (string.IsNullOrWhiteSpace(confirmPasswordEntry.Text))
-            //{
-            //    messageLabel.Text = "Please confirm the password!";
-            //    return false;
-            //}
-            //if (!confirmPasswordEntry.Text.Equals(passwordEntry.Text))
-            //{
-            //    messageLabel.Text = "The passwords do not match!";
-            //    return false;
-            //}
+            if (string.IsNullOrWhiteSpace(usernameEntry.Text))
+            {
+                messageLabel.Text = "Please enter the username!";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(nameEntry.Text))
+            {
+                messageLabel.Text = "Please enter your name!";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(emailEntry.Text))
+            {
+                messageLabel.Text = "Please enter your email!";
+                return false;
+            }
+            if (IsValidEmail(emailEntry.Text))
+            {
+                messageLabel.Text = "Your email is not valid!";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(passwordEntry.Text))
+            {
+                messageLabel.Text = "Please enter a password!";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(confirmPasswordEntry.Text))
+            {
+                messageLabel.Text = "Please confirm the password!";
+                return false;
+            }
+            if (!confirmPasswordEntry.Text.Equals(passwordEntry.Text))
+            {
+                messageLabel.Text = "The passwords do not match!";
+                return false;
+            }
             return true;
         }
 
