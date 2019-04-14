@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManaApp.InterfaceCrossPlatform;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,16 +20,16 @@ namespace ManaApp.Pages
 
         private async void HttpRequestClicked(Object sender, EventArgs e)
         {
-            //IRestService service = new RestService();
-            //string result = await service.RefreshDataAsync();
-            //httpResponseView.Text = result;
+            IRestService service = new RestService();
+            string result = await service.RefreshDataAsync();
+            httpResponseView.Text = result;
         }
 
         private async void ToPageClicked(Object sender, EventArgs e)
         {
-            //IRestService service = new RestService();
-            //string result = await service.getPage(relativePath.Text);
-            //httpResponseView.Text = result;
+            IRestService service = new RestService();
+            string result = await service.GetPage(relativePath.Text);
+            httpResponseView.Text = result;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace ManaApp
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Digest", authHeaderValue);
         }
 
-        public async Task<string> getPage(string relativePath)
+        public async Task<string> GetPage(string relativePath)
         {
             var url = BASEURL + relativePath;
             var uri = new Uri(string.Format(url, string.Empty));
@@ -101,7 +101,7 @@ namespace ManaApp
             return result;
         }
 
-        public async Task<string> login(string username, string password)
+        public async Task<string> Login(string username, string password)
         {
             string jsonData = "{" + toJsonEntry("username", username) + ", " + toJsonEntry("password", password) + "}";
             var path = "userJSON/login";
@@ -148,7 +148,7 @@ namespace ManaApp
             return "\"" + text + "\"";
         }
 
-        public async Task<string> register(User user)
+        public async Task<string> Register(User user)
         {
             var path = "userJSON/register";
             var jsonData = userToJsonStr(user);
