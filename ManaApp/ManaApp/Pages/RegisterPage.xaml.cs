@@ -31,7 +31,8 @@ namespace ManaApp.Pages
                 username = usernameEntry.Text,
                 name = nameEntry.Text,
                 email = emailEntry.Text,
-                password = passwordEntry.Text
+                password = passwordEntry.Text,
+                is_provider = false
             };
             string result = await service.Register(user);
             messageLabel.Text = result;

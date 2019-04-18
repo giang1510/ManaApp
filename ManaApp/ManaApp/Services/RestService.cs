@@ -14,12 +14,14 @@ namespace ManaApp
     public class RestService : IRestService
     {
         HttpClient client;
-        const string BASEURL = "http://192.168.0.10:3000/";
+        string baseURL = "http://192.168.0.13:3000/";
 
         //public List<TodoItem> Items { get; private set; }
 
         public RestService()
         {
+            baseURL = "https://appointment-server.herokuapp.com/";
+
             var authData = string.Format("{0}:{1}", "pass123", "123");
             var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
 
@@ -30,7 +32,7 @@ namespace ManaApp
 
         public async Task<string> GetPage(string relativePath)
         {
-            var url = BASEURL + relativePath;
+            var url = baseURL + relativePath;
             var uri = new Uri(string.Format(url, string.Empty));
             string result = "";
 
@@ -101,18 +103,19 @@ namespace ManaApp
             return result;
         }
 
-        public async Task<string> Login(string username, string password)
+        public async Task<string> Login(User user)
         {
-            string jsonData = "{" + toJsonEntry("username", username) + ", " + toJsonEntry("password", password) + "}";
+            
+            var jsonData = JsonConvert.SerializeObject(user);
             var path = "userJSON/login";
             
-            return await doPOST(path, jsonData);
+            return await DoPOST(path, jsonData);
         }
 
         //Do a Post-Request
-        private async Task<string> doPOST(string relativePath, string jsonData)
+        private async Task<string> DoPOST(string relativePath, string jsonData)
         {
-            var RestUrl = BASEURL + relativePath;
+            var RestUrl = baseURL + relativePath;
             var uri = new Uri(string.Format(RestUrl, string.Empty));
 
             string result = "";
@@ -138,36 +141,12 @@ namespace ManaApp
             return result;
         }
 
-        private string toJsonEntry(string key, string value)
-        {
-            return quotedStr(key) + " : " + quotedStr(value);
-        }
-
-        private string quotedStr(string text)
-        {
-            return "\"" + text + "\"";
-        }
-
         public async Task<string> Register(User user)
         {
             var path = "userJSON/register";
-            var jsonData = userToJsonStr(user);
-
-            return await doPOST(path, jsonData);
+            var jsonData = JsonConvert.SerializeObject(user);
+            return await DoPOST(path, jsonData);
         }
 
-        private string userToJsonStr(User user)
-        {
-            string usernameEntry = toJsonEntry(Constants.USER_USERNAME, user.username);
-            string nameEntry = toJsonEntry(Constants.USER_NAME, user.name);
-            string emailEntry = toJsonEntry(Constants.USER_EMAIL, user.email);
-            string passwordEntry = toJsonEntry(Constants.USER_PASSWORD, user.password);
-            string result = "{"
-                + usernameEntry + ", "
-                + nameEntry + ", "
-                + emailEntry + ", "
-                + passwordEntry + " }";
-            return result;
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ManaApp.InterfaceCrossPlatform;
+using ManaApp.Model;
 using System;
 
 using Xamarin.Forms;
@@ -22,7 +23,12 @@ namespace ManaApp.Pages
         private async void Login(object sender, EventArgs e)
         {
             IRestService service = new RestService();
-            string result = await service.Login(usernameEntry.Text, passwordEntry.Text);
+            var user = new User
+            {
+                username = usernameEntry.Text,
+                password = passwordEntry.Text
+            };
+            string result = await service.Login(user);
             messageLabel.Text = result;
         }
     }

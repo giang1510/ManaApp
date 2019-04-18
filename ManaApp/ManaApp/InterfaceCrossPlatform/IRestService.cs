@@ -7,7 +7,7 @@ namespace ManaApp.InterfaceCrossPlatform
     {
         Task<string> RefreshDataAsync();
         Task<string> GetPage(string relativePath);
-        Task<string> Login(string username, string password);
+        Task<string> Login(User user);
         Task<string> Register(User user);
     }
 }
