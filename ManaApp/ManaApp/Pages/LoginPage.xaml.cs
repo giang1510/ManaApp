@@ -28,8 +28,8 @@ namespace ManaApp.Pages
                 username = usernameEntry.Text,
                 password = passwordEntry.Text
             };
-            string result = await service.Login(user);
-            messageLabel.Text = result;
+            LoginResponse loginResponse = await service.Login(user);
+            messageLabel.Text = loginResponse.message;
         }
     }
 }

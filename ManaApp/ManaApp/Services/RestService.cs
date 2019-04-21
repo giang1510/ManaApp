@@ -13,6 +13,8 @@ namespace ManaApp
 {
     public class RestService : IRestService
     {
+        const string LOGIN_PATH = "userJSON/login";
+
         HttpClient client;
         string baseURL = "http://192.168.0.13:3000/";
 
@@ -103,13 +105,12 @@ namespace ManaApp
             return result;
         }
 
-        public async Task<string> Login(User user)
+        public async Task<LoginResponse> Login(User user)
         {
-            
             var jsonData = JsonConvert.SerializeObject(user);
-            var path = "userJSON/login";
-            
-            return await DoPOST(path, jsonData);
+            var responseStr = await DoPOST(LOGIN_PATH, jsonData);
+            var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseStr);
+            return loginResponse;
         }
 
         //Do a Post-Request
