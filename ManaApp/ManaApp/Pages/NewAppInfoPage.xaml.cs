@@ -25,7 +25,7 @@ namespace ManaApp.Pages
         private void ToCalendarPageClicked(object sender, EventArgs e)
         {
             //TODO
-            Navigation.PushAsync(new CalendarPage());
+            Navigation.PushModalAsync(new CalendarPage());
         }
     }
 }
