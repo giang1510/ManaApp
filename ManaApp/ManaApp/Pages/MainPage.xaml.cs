@@ -59,5 +59,10 @@ namespace ManaApp
             Navigation.PushModalAsync(new NewAppInfoPage());
         }
 
+        private void LoadProviderSearchPage(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new ProviderSearchPage());
+        }
+
     }
 }

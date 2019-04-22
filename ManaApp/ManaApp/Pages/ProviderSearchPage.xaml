@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ManaApp.Pages.ProviderSearchPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="ManaApp" FontSize="Large"/>
+            <Entry x:Name="providerSearchEntry" Placeholder="Enter Provider"/>
+            <Button Text="Search" Clicked="LoadProviderSearchPage"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

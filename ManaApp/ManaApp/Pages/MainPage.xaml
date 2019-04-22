@@ -14,6 +14,7 @@
             <Button Text="Login Page" Clicked="LoadLoginPage"/>
             <Button Text="Register Page" Clicked="LoadRegisterPage"/>
             <Button Text="New App Page" Clicked="LoadNewAppInfoPage"/>
+            <Button Text="Provider Search Page" Clicked="LoadProviderSearchPage"/>
             <Label Text="Display raw data" x:Name="rawDataTextView" />
         </StackLayout>
     </ScrollView>
