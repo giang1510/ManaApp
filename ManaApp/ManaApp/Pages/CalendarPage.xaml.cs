@@ -31,34 +31,32 @@ namespace ManaApp.Pages
 
             closeCount = 0;
 
+            SetupViewPicker();
+
+            ConfigureWeekViewSettings();
+        }
+
+        private void SetupViewPicker()
+        {
             foreach (string viewName in Constants.viewNames)
             {
                 viewPicker.Items.Add(viewName);
             }
             //Default Value = "Day View"
             viewPicker.SelectedIndex = 0;
+        }
 
-            //Specify week-view-settings
+        private void ConfigureWeekViewSettings()
+        {
             WeekViewSettings weekViewSettings = new WeekViewSettings();
             weekViewSettings.AllDayAppointmentLayoutColor = Color.LightGray;
             weekViewSettings.ShowAllDay = true;
             schedule.WeekViewSettings = weekViewSettings;
         }
 
-        public CalendarPage(AppointmentDesc appointmentDesc)
+        public CalendarPage(AppointmentDesc appointmentDesc) : this()
         {
-            InitializeComponent();
-
-            foreach (string viewName in Constants.viewNames)
-            {
-                viewPicker.Items.Add(viewName);
-            }
-            //Default Value = "Day View"
-            viewPicker.SelectedIndex = 0;
-            WeekViewSettings weekViewSettings = new WeekViewSettings();
-            weekViewSettings.AllDayAppointmentLayoutColor = Color.LightGray;
-            weekViewSettings.ShowAllDay = true;
-            schedule.WeekViewSettings = weekViewSettings;
+            // TODO
         }
 
         private void OnViewChanged(object sender, EventArgs e)
@@ -83,8 +81,7 @@ namespace ManaApp.Pages
             }
         }
 
-        //Schedule's Left-Right-Swipe Event
-        private void OnVisibleDatesChanged(object sender, VisibleDatesChangedEventArgs e)
+        private void PopulateScheduleWithData(VisibleDatesChangedEventArgs e)
         {
             //Get the range of visible dates of SFSchedule
             List<DateTime> visDates = e.visibleDates;
@@ -96,7 +93,13 @@ namespace ManaApp.Pages
             schedule.DataSource = curCollection;
         }
 
-        private void OnCalendarCellTapped(object sender, CellTappedEventArgs e)
+        //Schedule's Left-Right-Swipe Event
+        private void OnVisibleDatesChanged(object sender, VisibleDatesChangedEventArgs e)
+        {
+            PopulateScheduleWithData(e);
+        }
+
+        private void CreateLabelList(CellTappedEventArgs e)
         {
             //Assign selected date
             selectedDate = e.Datetime;
@@ -106,9 +109,11 @@ namespace ManaApp.Pages
             {
                 selDateLabelTxtCol.Add(ConvertDatetimeToKey(selectedDate), new List<string>());
             }
+        }
 
-
-
+        private void OnCalendarCellTapped(object sender, CellTappedEventArgs e)
+        {
+            CreateLabelList(e);
 
             ShowLabelsSuggestion();
             if (Constants.toast != null) Constants.toast.speak("Cell Tapped!!");
@@ -155,19 +160,8 @@ namespace ManaApp.Pages
             ShowLabelsSuggestion();
         }
 
-        private void ShowLabelsSuggestion()
+        private void ShowAddedTimeSlots()
         {
-            //Dynamic Add-Button and Suggestion-Labels
-            timeSlotLayout.Children.Clear();
-            Button timeSlotAddBtn = new Button
-            {
-                Text = "Zeit hinzufügen",
-                VerticalOptions = LayoutOptions.FillAndExpand
-            };
-            timeSlotAddBtn.Clicked += OnTimeSlotAdd;
-            timeSlotLayout.Children.Add(timeSlotAddBtn);
-
-            //Add Labels
             List<string> selLabelList = selDateLabelTxtCol[ConvertDatetimeToKey(selectedDate)];
             if (selLabelList.Count > 0 && selLabelList != null)
             {
@@ -192,6 +186,7 @@ namespace ManaApp.Pages
                     };
                     delBtn.Clicked += OnDelLbClicked;
 
+                    // Specify layout for the items within a time slot
                     StackLayout mainLayout = new StackLayout
                     {
                         Orientation = StackOrientation.Horizontal
@@ -203,6 +198,7 @@ namespace ManaApp.Pages
                     });
                     mainLayout.Children.Add(delBtn);
 
+                    // Border with color
                     Frame lbFrame = new Frame
                     {
                         Content = mainLayout,
@@ -213,7 +209,27 @@ namespace ManaApp.Pages
                     index++;
                 }
             }
+        }
 
+        private void ShowTimeSlotAddBtn()
+        {
+            Button timeSlotAddBtn = new Button
+            {
+                Text = "Add Time",
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+            timeSlotAddBtn.Clicked += OnTimeSlotAdd;
+            timeSlotLayout.Children.Add(timeSlotAddBtn);
+        }
+
+        private void ShowLabelsSuggestion()
+        {
+            //Dynamic Add-Button and Suggestion-Labels
+            timeSlotLayout.Children.Clear();
+
+            ShowTimeSlotAddBtn();
+
+            ShowAddedTimeSlots();
         }
 
         private void OnDelLbClicked(object sender, EventArgs e)
