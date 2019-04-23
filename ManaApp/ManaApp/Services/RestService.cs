@@ -14,6 +14,7 @@ namespace ManaApp
     public class RestService : IRestService
     {
         const string LOGIN_PATH = "userJSON/login";
+        const string SEARCH_PATH = "search_machine/JSON";
 
         HttpClient client;
         string baseURL = "http://192.168.0.13:3000/";
@@ -149,5 +150,11 @@ namespace ManaApp
             return await DoPOST(path, jsonData);
         }
 
+        public async Task<string> SearchProvider(SearchInput searchInput)
+        {
+            var searchInputJson = JsonConvert.SerializeObject(searchInput);
+            string searchResult = await DoPOST(SEARCH_PATH, searchInputJson);
+            return searchResult;
+        }
     }
 }
