@@ -9,6 +9,6 @@ namespace ManaApp.InterfaceCrossPlatform
         Task<string> GetPage(string relativePath);
         Task<LoginResponse> Login(User user);
         Task<string> Register(User user);
-        Task<string> SearchProvider(SearchInput searchInput);
+        Task<ProviderSearchResult> SearchProvider(SearchInput searchInput);
     }
 }

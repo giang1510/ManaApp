@@ -18,12 +18,12 @@ namespace ManaApp.Pages
 
         private async void LoadProviderSearchPage(object sender, EventArgs e)
         {
-            string searchResult = await DoSearch();
+            ProviderSearchResult searchResult = await DoSearch();
 
             Navigation.PushModalAsync(new ProviderResultPage(providerSearchEntry.Text, searchResult));
         }
 
-        private async Task<string> DoSearch()
+        private async Task<ProviderSearchResult> DoSearch()
         {
             var searchInput = new SearchInput
             {

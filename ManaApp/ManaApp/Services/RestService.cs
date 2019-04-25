@@ -150,11 +150,11 @@ namespace ManaApp
             return await DoPOST(path, jsonData);
         }
 
-        public async Task<string> SearchProvider(SearchInput searchInput)
+        public async Task<ProviderSearchResult> SearchProvider(SearchInput searchInput)
         {
             var searchInputJson = JsonConvert.SerializeObject(searchInput);
-            string searchResult = await DoPOST(SEARCH_PATH, searchInputJson);
-            return searchResult;
+            string searchResultJson = await DoPOST(SEARCH_PATH, searchInputJson);
+            return JsonConvert.DeserializeObject<ProviderSearchResult>(searchResultJson);
         }
     }
 }

@@ -21,11 +21,11 @@ namespace ManaApp.Pages
 			InitializeComponent ();
 		}
 
-        public ProviderResultPage(string searchText, string searchResult) : this()
+        public ProviderResultPage(string searchText, ProviderSearchResult searchResult) : this()
         {
             this.searchText = searchText;
             searchTextLabel.Text += searchText;
-            jsonResult.Text = searchResult;
+            jsonResult.Text = searchResult.provider_infos[0].provider_id;
         }
 	}
 }
