@@ -5,7 +5,19 @@
     <ContentPage.Content>
         <StackLayout>
             <Label x:Name="searchTextLabel" Text="Results of " FontSize="Large"/>
-            <Label x:Name="jsonResult" Text="Nothing found!" />
+            <Label x:Name="jsonResult" Text="Nothing found!" IsVisible="False"/>
+            <ListView x:Name="providerResultListView" SelectionMode="None" ItemTapped="OnTap">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <!--comment and uncomment lines to see each cell type-->
+                        <TextCell Text="{Binding name}" Detail="{Binding address}" />
+                        <!--<ImageCell Text="{Binding name}" Detail="{Binding comment}" ImageSource="{Binding image}" />-->
+                        <!--<SwitchCell Text="{Binding name}" On="{Binding isReallyAVeggie}" />-->
+                        <!--<EntryCell Label="{Binding name}" Text="{Binding comment}" />-->
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>
