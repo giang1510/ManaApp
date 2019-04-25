@@ -16,7 +16,7 @@ namespace ManaApp.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ProviderResultPage : ContentPage
 	{
-        private string searchText;
+        private Provider[] providerList;
         private ObservableCollection<ProviderResultViewModel> providers { get; set; }
 
         public ProviderResultPage ()
@@ -26,12 +26,12 @@ namespace ManaApp.Pages
 
         public ProviderResultPage(string searchText, ProviderSearchResult searchResult) : this()
         {
-            this.searchText = searchText;
+            providerList = searchResult.provider_infos;
+
             searchTextLabel.Text += searchText;
             if (searchResult.provider_infos.Length <= 0)
             {
                 jsonResult.IsVisible = true;
-                return;
             }
 
             PopulateResultListView(searchResult.provider_infos);
@@ -53,7 +53,7 @@ namespace ManaApp.Pages
 
         private void OnTap(object sender, ItemTappedEventArgs e)
         {
-            DisplayAlert("Item Tapped", e.Item.ToString(), "Ok");
+            Navigation.PushModalAsync(new ProviderPage(providerList[e.ItemIndex]));
         }
     }
 }
