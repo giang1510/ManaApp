@@ -15,6 +15,7 @@ namespace ManaApp
     {
         const string LOGIN_PATH = "userJSON/login";
         const string SEARCH_PATH = "search_machine/JSON";
+        const string PROVIDER_PATH = "provider/JSON/";
 
         HttpClient client;
         string baseURL = "http://192.168.0.13:3000/";
@@ -155,6 +156,14 @@ namespace ManaApp
             var searchInputJson = JsonConvert.SerializeObject(searchInput);
             string searchResultJson = await DoPOST(SEARCH_PATH, searchInputJson);
             return JsonConvert.DeserializeObject<ProviderSearchResult>(searchResultJson);
+        }
+
+        public async Task<ProviderPublicResult> GetProviderPublicInfo(string providerID)
+        {
+            string relativePath =  PROVIDER_PATH + providerID;
+            string jsonRsult = await GetPage(relativePath);
+
+            return JsonConvert.DeserializeObject<ProviderPublicResult>(jsonRsult);
         }
     }
 }

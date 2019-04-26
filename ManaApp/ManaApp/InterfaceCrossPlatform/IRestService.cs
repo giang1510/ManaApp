@@ -10,5 +10,6 @@ namespace ManaApp.InterfaceCrossPlatform
         Task<LoginResponse> Login(User user);
         Task<string> Register(User user);
         Task<ProviderSearchResult> SearchProvider(SearchInput searchInput);
+        Task<ProviderPublicResult> GetProviderPublicInfo(string providerID);
     }
 }

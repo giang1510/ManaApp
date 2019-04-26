@@ -7,6 +7,7 @@
             <Label Text="HTTP Request Test - External Web Service" />
             <Button Text="HttpRequest" Clicked="HttpRequestClicked"/>
             <Button Text="ToPage" Clicked="ToPageClicked"/>
+            <Button Text="Provider Public Info" Clicked="ProviderPublicClicked"/>
             <Entry x:Name="relativePath" Placeholder="Please insert Path"/>
             <Label x:Name="httpResponseView" Text="Http Response should be here!!"/>
         </StackLayout>
