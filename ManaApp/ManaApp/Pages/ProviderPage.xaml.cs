@@ -1,4 +1,5 @@
-﻿using ManaApp.Model;
+﻿using ManaApp.InterfaceCrossPlatform;
+using ManaApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,11 @@ namespace ManaApp.Pages
             emailLabel.Text = providerInfo.provider_email;
         }
 
-        private void MakeAppointment(object sender, EventArgs e)
+        private async void MakeAppointment(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new CalendarPage(provider));
+            IRestService service = new RestService();
+            var providerPublicResult = await service.GetProviderPublicInfo(provider.provider_id);
+            Navigation.PushModalAsync(new CalendarPage(provider, providerPublicResult.provider_appointments));
         }
 	}
 }

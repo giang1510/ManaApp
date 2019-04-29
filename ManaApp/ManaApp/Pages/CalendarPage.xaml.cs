@@ -25,6 +25,7 @@ namespace ManaApp.Pages
         private Provider provider;
         private DateTime appointmentStart;
         private DateTime appointmentEnd;
+        private Dictionary<string, HashSet<string>> occupiedAppointments = new Dictionary<string, HashSet<string>>();
 
         //For debugging
         public int closeCount { get; set; }
@@ -40,10 +41,37 @@ namespace ManaApp.Pages
             ConfigureWeekViewSettings();
         }
 
-        public CalendarPage(Provider provider) : this()
+        public CalendarPage(Provider provider, ProviderAppointment[] appointments) : this()
         {
             this.provider = provider;
             InitializePossibleAppointmentInterval();
+            CreateOccupiedAppointmentDictionary(appointments);
+        }
+
+        private void CreateOccupiedAppointmentDictionary(ProviderAppointment[] appointments)
+        {
+            foreach(var appointment in appointments)
+            {
+                var appointmentTime = appointment.start_date;
+                if (appointmentTime < DateTime.Now) continue;
+                var appointmentKey = GenerateAppointmentKey(appointmentTime);
+                var timeKey = GenerateTimeInADayKey(appointmentTime);
+                if (!occupiedAppointments.ContainsKey(appointmentKey))
+                {
+                    occupiedAppointments.Add(appointmentKey, new HashSet<string>());
+                }
+                occupiedAppointments[appointmentKey].Add(timeKey);
+            }
+        }
+
+        private string GenerateAppointmentKey(DateTime d)
+        {
+            return "" + d.Year + d.Month + d.Day;
+        }
+
+        private string GenerateTimeInADayKey(DateTime d)
+        {
+            return "" + d.Hour + d.Minute;
         }
 
         private void InitializePossibleAppointmentInterval()
@@ -172,15 +200,30 @@ namespace ManaApp.Pages
             }
 
             var endSlotTime = startSlotTime.AddMinutes(providerInfo.slot_range_in_min);
-            int i = 0;
+            var appointmentKey = GenerateAppointmentKey(startSlotTime);
+            var hasOccupiedAppointments = occupiedAppointments.ContainsKey(appointmentKey);
+            HashSet<string> occupiedTimeSlots = new HashSet<string>();
+            if (hasOccupiedAppointments)
+            {
+                occupiedTimeSlots = occupiedAppointments[appointmentKey];
+            }
             while (startSlotTime.Hour < providerInfo.end_work_time)
             {
+                if (hasOccupiedAppointments)
+                {
+                    var timeKey = GenerateTimeInADayKey(startSlotTime);
+                    if (occupiedTimeSlots.Contains(timeKey))
+                    {
+                        occupiedTimeSlots.Remove(timeKey);
+                        startSlotTime = endSlotTime;
+                        endSlotTime = endSlotTime.AddMinutes(providerInfo.slot_range_in_min);
+                        continue;
+                    }
+                }
                 CreateProviderTimeSlotBtn(startSlotTime, endSlotTime);
                 startSlotTime = endSlotTime;
                 endSlotTime = endSlotTime.AddMinutes(providerInfo.slot_range_in_min);
-                i++;
             }
-            if (Constants.toast != null) Constants.toast.speak(i.ToString());
         }
 
         private bool IsSameDay(DateTime d1, DateTime d2)
@@ -258,8 +301,8 @@ namespace ManaApp.Pages
 
         private string MakeTimeSlotStr(DateTime startTime, DateTime endTime)
         {
-            return startTime.Hour + ":" + startTime.Minute + " - "
-                + endTime.Hour + ":" + endTime.Minute;
+            return startTime.Hour.ToString() + ":" + startTime.Minute.ToString() + " - "
+                + endTime.Hour.ToString() + ":" + endTime.Minute.ToString();
         }
 
         private async void OnTimeSlotAdd(object sender, EventArgs e)
