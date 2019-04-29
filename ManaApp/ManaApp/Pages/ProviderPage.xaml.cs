@@ -13,6 +13,8 @@ namespace ManaApp.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ProviderPage : ContentPage
 	{
+        private Provider provider;
+
 		public ProviderPage ()
 		{
 			InitializeComponent ();
@@ -21,6 +23,7 @@ namespace ManaApp.Pages
         public ProviderPage(Provider provider) : this()
         {
             FillInProviderInfo(provider.provider_info);
+            this.provider = provider;
         }
 
         private void FillInProviderInfo(ProviderInfo providerInfo)
@@ -29,6 +32,11 @@ namespace ManaApp.Pages
             addressLabel.Text = providerInfo.provider_address;
             phoneNumberLabel.Text = providerInfo.provider_phone_number;
             emailLabel.Text = providerInfo.provider_email;
+        }
+
+        private void MakeAppointment(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new CalendarPage(provider));
         }
 	}
 }

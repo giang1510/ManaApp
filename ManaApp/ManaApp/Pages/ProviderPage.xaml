@@ -11,6 +11,7 @@
             <Label x:Name="phoneNumberLabel" Text="No phone number"/>
             <Label Text="Email" FontSize="Medium" TextColor="Black"/>
             <Label x:Name="emailLabel" Text="No email"/>
+            <Button Text="Make an appointment" Clicked="MakeAppointment"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

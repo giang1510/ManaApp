@@ -10,10 +10,14 @@
             <syncfusion:SfSchedule x:Name="schedule" ShowAppointmentsInline="True" VisibleDatesChangedEvent="OnVisibleDatesChanged" CellTapped="OnCalendarCellTapped"/>
             
             <!--<TimePicker x:Name="timePicker" IsVisible="False"/>-->
-            <StackLayout x:Name="timeSlotLayout">
-                <!--Timeslot-Add-Button and added timeslots will be showed here-->
-            </StackLayout>
-            <Label x:Name="debugLabel" Text="Nothing yet"/>
+            <ScrollView>
+                <StackLayout x:Name="timeSlotLayout">
+                    <!--Timeslot-Add-Button and added timeslots will be showed here-->
+                    <Label x:Name="debugLabel" Text="Nothing yet"/>
+                </StackLayout>
+                
+            </ScrollView>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

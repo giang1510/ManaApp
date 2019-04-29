@@ -14,26 +14,48 @@ using Xamarin.Forms.Xaml;
 
 namespace ManaApp.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CalendarPage : ContentPage
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class CalendarPage : ContentPage
+    {
         private List<ChosenTime> chosenTimeList = new List<ChosenTime>();
         private DateTime selectedDate = new DateTime();
         private ScheduleAppointmentCollection curCollection = new ScheduleAppointmentCollection();
         private Dictionary<string, List<string>> selDateLabelTxtCol = new Dictionary<string, List<string>>();
 
+        private Provider provider;
+        private DateTime appointmentStart;
+        private DateTime appointmentEnd;
+
         //For debugging
         public int closeCount { get; set; }
 
-        public CalendarPage ()
-		{
-			InitializeComponent ();
+        public CalendarPage()
+        {
+            InitializeComponent();
 
             closeCount = 0;
 
             SetupViewPicker();
 
             ConfigureWeekViewSettings();
+        }
+
+        public CalendarPage(Provider provider) : this()
+        {
+            this.provider = provider;
+            InitializePossibleAppointmentInterval();
+        }
+
+        private void InitializePossibleAppointmentInterval()
+        {
+            var providerInfo = provider.provider_info;
+            appointmentStart = GetPlausibleAppointmentDate(DateTime.Now.AddDays(providerInfo.days_till_next_pos_app));
+            appointmentEnd = new DateTime(
+                appointmentStart.Year,
+                appointmentStart.Month,
+                appointmentStart.Day,
+                providerInfo.end_work_time, 0, 0
+            ).AddDays(providerInfo.pos_app_range_in_days);
         }
 
         private void SetupViewPicker()
@@ -44,6 +66,7 @@ namespace ManaApp.Pages
             }
             //Default Value = "Day View"
             viewPicker.SelectedIndex = 0;
+            schedule.ScheduleView = Syncfusion.SfSchedule.XForms.ScheduleView.MonthView;
         }
 
         private void ConfigureWeekViewSettings()
@@ -113,13 +136,131 @@ namespace ManaApp.Pages
 
         private void OnCalendarCellTapped(object sender, CellTappedEventArgs e)
         {
-            CreateLabelList(e);
+            if (provider == null)
+            {
+                CreateLabelList(e);
 
-            ShowLabelsSuggestion();
-            if (Constants.toast != null) Constants.toast.speak("Cell Tapped!!");
+                ShowLabelsSuggestion();
+            }
+            else
+            {
+                //if (Constants.toast != null) Constants.toast.speak("Cell Tapped!!");
+
+                ShowProviderTimeSlots(e.Datetime);
+            }
         }
 
+        private void ShowProviderTimeSlots(DateTime selectedDate)
+        {
+            //TODO
+            ClearTimeSlots();
+            AddProviderTimeSlots(selectedDate);
+        }
 
+        private void AddProviderTimeSlots(DateTime selectedDate)
+        {
+            bool isWithinPossibleInterval = (IsSameDay(selectedDate, appointmentStart) || selectedDate > appointmentStart)
+                && selectedDate < appointmentEnd;
+            if (!isWithinPossibleInterval) return;
+            if (Constants.toast != null) Constants.toast.speak(appointmentEnd.ToString());
+
+            var providerInfo = provider.provider_info;
+            var startSlotTime = selectedDate.AddHours(providerInfo.start_work_time);
+            if (selectedDate.Day == appointmentStart.Day)
+            {
+                startSlotTime = appointmentStart;
+            }
+
+            var endSlotTime = startSlotTime.AddMinutes(providerInfo.slot_range_in_min);
+            int i = 0;
+            while (startSlotTime.Hour < providerInfo.end_work_time)
+            {
+                CreateProviderTimeSlotBtn(startSlotTime, endSlotTime);
+                startSlotTime = endSlotTime;
+                endSlotTime = endSlotTime.AddMinutes(providerInfo.slot_range_in_min);
+                i++;
+            }
+            if (Constants.toast != null) Constants.toast.speak(i.ToString());
+        }
+
+        private bool IsSameDay(DateTime d1, DateTime d2)
+        {
+            return d1.Year == d2.Year && d1.Month == d2.Month && d1.Day == d2.Day;
+        }
+
+        private DateTime GetPlausibleAppointmentDate(DateTime date)
+        {
+            var nextPossibleAppointmentDay = GetPlausibleAppointmentTimeInADay(GetTimeWithoutMinSec(date));
+            if (date.DayOfWeek == DayOfWeek.Saturday)
+            {
+                nextPossibleAppointmentDay = nextPossibleAppointmentDay.AddDays(2);
+            }
+            else if (date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                nextPossibleAppointmentDay = nextPossibleAppointmentDay.AddDays(1);
+            }
+            return nextPossibleAppointmentDay;
+        }
+
+        private DateTime GetPlausibleAppointmentTimeInADay(DateTime date)
+        {
+            var startHour = provider.provider_info.start_work_time;
+            var endHour = provider.provider_info.end_work_time;
+            if (date.Hour < startHour)
+            {
+                return new DateTime(
+                    date.Year,
+                    date.Month,
+                    date.Day
+                ).AddHours(startHour);
+            }
+            else if (date.Hour >= endHour)
+            {
+                return new DateTime(
+                    date.Year,
+                    date.Month,
+                    date.Day
+                ).AddDays(1).AddHours(startHour);
+            }
+            return date;
+        }
+
+        private DateTime GetTimeWithoutMinSec(DateTime date)
+        {
+            return new DateTime(
+                date.Year,
+                date.Month,
+                date.Day,
+                date.Hour, 0, 0
+            );
+        }
+
+        private TimeSpan HoursToAdd(int hours)
+        {
+            return new TimeSpan(hours, 0, 0);
+        }
+
+        private void ClearTimeSlots()
+        {
+            timeSlotLayout.Children.Clear();
+        }
+
+        private void CreateProviderTimeSlotBtn(DateTime startTime, DateTime endTime)
+        {
+            Button timeSlotBtn = new Button
+            {
+                Text = MakeTimeSlotStr(startTime, endTime),
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+            //timeSlotBtn.Clicked += OnTimeSlotAdd;
+            timeSlotLayout.Children.Add(timeSlotBtn);
+        }
+
+        private string MakeTimeSlotStr(DateTime startTime, DateTime endTime)
+        {
+            return startTime.Hour + ":" + startTime.Minute + " - "
+                + endTime.Hour + ":" + endTime.Minute;
+        }
 
         private async void OnTimeSlotAdd(object sender, EventArgs e)
         {
@@ -131,7 +272,7 @@ namespace ManaApp.Pages
         {
             debugLabel.Text = text;
         }
-
+        
         public void AddTimeSlotSuggestion(TimeSpan startTime, TimeSpan endTime)
         {
             //Suggestion as timeslot was added
@@ -225,7 +366,7 @@ namespace ManaApp.Pages
         private void ShowLabelsSuggestion()
         {
             //Dynamic Add-Button and Suggestion-Labels
-            timeSlotLayout.Children.Clear();
+            ClearTimeSlots();
 
             ShowTimeSlotAddBtn();
 
