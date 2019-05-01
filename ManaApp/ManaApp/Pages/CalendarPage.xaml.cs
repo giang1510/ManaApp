@@ -295,7 +295,10 @@ namespace ManaApp.Pages
                 Text = MakeTimeSlotStr(startTime, endTime),
                 VerticalOptions = LayoutOptions.FillAndExpand
             };
-            //timeSlotBtn.Clicked += OnTimeSlotAdd;
+            timeSlotBtn.Clicked += async (sender, args) =>
+            {
+                Navigation.PushModalAsync(new AppointmentRequestPage(startTime, endTime));
+            };
             timeSlotLayout.Children.Add(timeSlotBtn);
         }
 

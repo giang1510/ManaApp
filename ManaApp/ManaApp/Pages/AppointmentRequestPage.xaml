@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ManaApp.Pages.AppointmentRequestPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Customer Information" FontSize="Large" />
+            <Label x:Name="dateLabel" Text="No Time"/>
+            <Label Text="Name" />
+            <Entry x:Name="nameEntry" Placeholder="name" />
+            <Label Text="Phone Number" />
+            <Entry x:Name="phoneNumberEntry" Placeholder="0123" Keyboard="Telephone" />
+            <Label Text="E-Mail" />
+            <Entry x:Name="emailEntry" Placeholder="email" Keyboard="Email" />
+            <Button Text="Send Request" Clicked="OnSenRequestClicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
