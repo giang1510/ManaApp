@@ -297,7 +297,7 @@ namespace ManaApp.Pages
             };
             timeSlotBtn.Clicked += async (sender, args) =>
             {
-                Navigation.PushModalAsync(new AppointmentRequestPage(startTime, endTime));
+                Navigation.PushModalAsync(new AppointmentRequestPage(startTime, endTime, provider.provider_id));
             };
             timeSlotLayout.Children.Add(timeSlotBtn);
         }

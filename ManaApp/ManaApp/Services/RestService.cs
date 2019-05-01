@@ -165,5 +165,14 @@ namespace ManaApp
 
             return JsonConvert.DeserializeObject<ProviderPublicResult>(jsonRsult);
         }
+
+        public async Task<ProviderAppointmetRequestResult> RequestAppointment(ProviderAppointment appointment, string providerID)
+        {
+            string relativePath = PROVIDER_PATH + "public/" + providerID;
+            var jsonData = JsonConvert.SerializeObject(appointment);
+            string jsonRsult = await DoPOST(relativePath, jsonData);
+
+            return JsonConvert.DeserializeObject<ProviderAppointmetRequestResult>(jsonRsult);
+        }
     }
 }

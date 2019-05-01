@@ -11,5 +11,6 @@ namespace ManaApp.InterfaceCrossPlatform
         Task<string> Register(User user);
         Task<ProviderSearchResult> SearchProvider(SearchInput searchInput);
         Task<ProviderPublicResult> GetProviderPublicInfo(string providerID);
+        Task<ProviderAppointmetRequestResult> RequestAppointment(ProviderAppointment appointment, string providerID);
     }
 }
